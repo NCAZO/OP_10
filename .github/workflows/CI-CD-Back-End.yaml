@@ -3,7 +3,7 @@ name: Build and Test with Jacoco
 on:
   push:
     branches:
-      - "*"
+      - Dev
 
 jobs:
   build:
