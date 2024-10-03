@@ -29,11 +29,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar \
           -Dsonar.organization=ncazo \
           -Dsonar.projectKey=NCAZO_OP_P10 \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-          -Dsonar.branch.name=${{ github.ref_name }}
+          -Dsonar.branch.name=Dev  # Utilisez la branche Dev explicitement si c'est la branche de votre projet
 
       - name: Jacoco Report to PR
         id: jacoco
