@@ -57,7 +57,7 @@ jobs:
       # IMAGE ET PUSH DOCKERHUB
       - name: Build Docker Image
         working-directory: ./back
-        run: docker build -t ncazo/op_10:latest .
+        run: docker build -t ncazo/op-10_back:latest .
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -66,4 +66,4 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Push Docker Image
-        run: docker push ncazo/op_10:latest
+        run: docker push ncazo/op-10_back:latest
