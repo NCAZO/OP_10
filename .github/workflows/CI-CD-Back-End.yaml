@@ -17,25 +17,29 @@ jobs:
           java-version: '17'
 
       - name: Compile with Maven
-        working-directory: ./back  # Spécifiez le chemin vers le dossier contenant le pom.xml
+        working-directory: ./back
         run: mvn clean compile
 
       - name: Test with Maven
-        working-directory: ./back  # Spécifiez le chemin vers le dossier contenant le pom.xml
+        working-directory: ./back
         run: mvn test
 
-      - name: Build with Maven and SonarQube
-        working-directory: ./back  # Spécifiez le chemin vers le dossier contenant le pom.xml
+      - name: Build with Maven and SonarCloud
+        working-directory: ./back
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          -Dsonar.organization=ncazo \
+          -Dsonar.projectKey=NCAZO_OP_P10 \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+          -Dsonar.branch.name=${{ github.ref_name }}
 
       - name: Jacoco Report to PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.7.1
         with:
-          paths: back/target/site/jacoco/jacoco.xml  # Mise à jour du chemin du rapport Jacoco
+          paths: back/target/site/jacoco/jacoco.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 40
           min-coverage-changed-files: 60
@@ -47,11 +51,11 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jacoco-report
-          path: back/target/site/jacoco/  # Chemin du rapport JaCoCo
+          path: back/target/site/jacoco/
 
       # IMAGE ET PUSH DOCKERHUB
       - name: Build Docker Image
-        working-directory: ./back  # Adjust the path if your Dockerfile is elsewhere
+        working-directory: ./back
         run: docker build -t ncazo/op_10:latest .
 
       - name: Log in to Docker Hub
