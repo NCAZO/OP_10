@@ -1,9 +1,6 @@
 name: Build and Test with Jacoco
 
-on:
-  push:
-    branches:
-      - Dev
+on: [ push, pull_request ]
 
 jobs:
   build:
@@ -27,27 +24,42 @@ jobs:
         working-directory: ./back  # Spécifiez le chemin vers le dossier contenant le pom.xml
         run: mvn test
 
-      - name: Build with Maven
-        working-directory: ./back  # Spécifiez le chemin vers le dossier contenant le pom.xml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+      #      - name: Build with Maven
+      #        working-directory: ./back  # Spécifiez le chemin vers le dossier contenant le pom.xml
+      #        env:
+      #          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}  # Needed to get PR information, if any
+      #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
 
-#      - name: Jacoco Report to PR
-#        id: jacoco
-#        uses: madrapps/jacoco-report@v1.7.1
-#        with:
-#          paths: ${{ github.workspace }}/build/reports/jacoco/testCoverage/testCoverage.xml
-#          token: ${{ secrets.GIT_TOKEN }}
-#          min-coverage-overall: 40
-#          min-coverage-changed-files: 60
-#          title: '# :lobster: Coverage Report'
-#          pass-emoji: ':green_circle:'
-#          fail-emoji: ':red_circle:'
-#
-#      - name: Upload Jacoco Test Report
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: jacoco-report
-#          path: back/target/site/jacoco/  # Chemin du rapport JaCoCo
+      #      - name: Jacoco Report to PR
+      #        id: jacoco
+      #        uses: madrapps/jacoco-report@v1.7.1
+      #        with:
+      #          paths: ${{ github.workspace }}/build/reports/jacoco/testCoverage/testCoverage.xml
+      #          token: ${{ secrets.GIT_TOKEN }}
+      #          min-coverage-overall: 40
+      #          min-coverage-changed-files: 60
+      #          title: '# :lobster: Coverage Report'
+      #          pass-emoji: ':green_circle:'
+      #          fail-emoji: ':red_circle:'
+      #
+      #      - name: Upload Jacoco Test Report
+      #        uses: actions/upload-artifact@v3
+      #        with:
+      #          name: jacoco-report
+      #          path: back/target/site/jacoco/  # Chemin du rapport JaCoCo
+
+
+      #IMAGE ET PUSH DOCKERHUB
+      - name: Build Docker Image
+        working-directory: ./back  # Adjust the path if your Dockerfile is elsewhere
+        run: docker build -t your-dockerhub-username/your-image-name:latest .
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push Docker Image
+        run: docker push your-dockerhub-username/your-image-name:latest
