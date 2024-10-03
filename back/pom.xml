@@ -15,7 +15,7 @@
 	<description>L'application de joke par excellence !</description>
 	<properties>
 		<java.version>11</java.version>
-		<sonar.organization>bobapp</sonar.organization>
+		<sonar.organization>ncazo</sonar.organization>
 		<sonar.projectKey>OP_10</sonar.projectKey>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>

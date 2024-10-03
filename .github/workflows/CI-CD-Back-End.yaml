@@ -34,7 +34,7 @@ jobs:
           #-Dsonar.projectKey=NCAZO_OP_P10 \
           #-Dsonar.login=${{ secrets.SONAR_TOKEN }} \
           #-Dsonar.branch.name=Dev  # Utilisez la branche Dev explicitement si c'est la branche de votre projet
-        run: mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=NCAZO_OP_P10
+        run: mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=OP_P10
 
       - name: Jacoco Report to PR
         id: jacoco
