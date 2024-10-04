@@ -7,8 +7,12 @@ on:
     branches: [master, Dev/*]
 
 jobs:
-  test:
+  front-end-ci:
+    name: Angular CI/CD
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./front
 
     steps:
       - name: Checkout code
