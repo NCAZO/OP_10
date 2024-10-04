@@ -29,11 +29,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        #run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar \
-         # -Dsonar.organization=bobapp \
-          #-Dsonar.projectKey=NCAZO_OP_P10 \
-          #-Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-          #-Dsonar.branch.name=Dev  # Utilisez la branche Dev explicitement si c'est la branche de votre projet
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=NCAZO_OP_P10
 
       - name: Jacoco Report to PR
@@ -54,16 +49,27 @@ jobs:
           name: jacoco-report
           path: back/target/site/jacoco/
 
-      # IMAGE ET PUSH DOCKERHUB
-      - name: Build Docker Image
-        working-directory: ./back
-        run: docker build -t ncazo/op-10_back:latest .
-
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Push Docker Image
-        run: docker push ncazo/op-10_back:latest
+      # IMAGE ET PUSH DOCKERHUB
+#      - name: Build Docker Image
+#        working-directory: ./back
+#        run: docker build -t ncazo/op-10_back:latest .
+
+
+
+#      - name: Push Docker Image
+#        run: docker push ncazo/op-10_back:latest
+
+      - name: Build and push Docker image (back)
+        uses: docker/build-push-action@v4
+        with:
+          context: ./back
+          file: ./back/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/op-10_back:latest
+
