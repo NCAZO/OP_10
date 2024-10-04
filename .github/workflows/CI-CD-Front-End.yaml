@@ -1,6 +1,10 @@
 name: Angular Test Coverage
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [master, Dev/*]
+  pull_request:
+    branches: [master, Dev/*]
 
 jobs:
   test:
