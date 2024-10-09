@@ -30,14 +30,14 @@ jobs:
       - name: Scan with SonarCloud
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           npx sonar-scanner \
             -Dsonar.projectKey=NCAZO_OP_P10 \
-            -Dsonar.organization=your-organization \
+            -Dsonar.organization=ncazo \
             -Dsonar.sources=. \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONARCLOUD_TOKEN }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
             -Dsonar.tests=src \
             -Dsonar.test.inclusions="**/*.spec.ts" \
