@@ -37,7 +37,7 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
-#            -Dsonar.organization=osiris1004
+            -Dsonar.organization=ncazo
             -Dsonar.projectKey=NCAZO_OP_P10
             -Dsonar.sources=front/src
             -Dsonar.tests=front/src
