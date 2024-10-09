@@ -49,7 +49,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: remove node_modules to avoid docker build error
+      - name: remove node_modules
         run: |
           rm -r node_modules
 
