@@ -27,21 +27,39 @@ jobs:
       - name: Run Build
         run: npm run build
 
-      - name: Scan with SonarCloud
+#      - name: Scan with SonarCloud
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          SONAR_TOKEN: ${{ secrets.FRONT_SONAR_TOKEN }}
+#        run: |
+#          npx sonar-scanner \
+#            -Dsonar.projectKey=ncazo_op-p10-front \
+#            -Dsonar.organization=ncazo \
+#            -Dsonar.sources=. \
+#            -Dsonar.host.url=https://sonarcloud.io \
+#            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+#            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
+#            -Dsonar.tests=src \
+#            -Dsonar.test.inclusions="**/*.spec.ts" \
+#            -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+
+      - name: SonarCloud Scan
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.FRONT_SONAR_TOKEN }}
-        run: |
-          npx sonar-scanner \
-            -Dsonar.projectKey=ncazo_op-p10-front \
-            -Dsonar.organization=ncazo \
-            -Dsonar.sources=. \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
-            -Dsonar.tests=src \
-            -Dsonar.test.inclusions="**/*.spec.ts" \
-            -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.organization=ncazo
+            -Dsonar.projectKey=ncazo_op-p10-front
+            -Dsonar.sources=front/src
+            -Dsonar.tests=front/src
+            -Dsonar.typescript.lcov.reportPaths=front/coverage/bobapp/lcov-report/lcov.info
+            -Dsonar.ts.tslintconfigpath=tslint.json
+            -Dsonar.exclusions=front/**/node_modules/**,**/assets/**,**/*.spec.ts
+            -Dsonar.test.inclusions=front/**/*.spec.ts
+            -Dsonar.host.url=https://sonarcloud.io
+
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
