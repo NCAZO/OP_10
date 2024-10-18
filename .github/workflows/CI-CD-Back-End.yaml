@@ -29,8 +29,8 @@ jobs:
       - name: Build with Maven and SonarCloud
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=NCAZO_OP_P10_BACK
+          SONAR_TOKEN: ${{ secrets.BACK_END_SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=ncazo_op-p10-back
 
       - name: Jacoco Report to PR
         id: jacoco
