@@ -15,6 +15,9 @@
 	<description>L'application de joke par excellence !</description>
 	<properties>
 		<java.version>11</java.version>
+		<sonar.organization>ncazo</sonar.organization>
+		<sonar.projectKey>NCAZO_OP_P10</sonar.projectKey>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<dependencies>
 		<dependency>
